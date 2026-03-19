@@ -10,73 +10,36 @@
         .header h1 { margin: 0; font-size: 20px; font-weight: 800; }
         .user-profile { display: flex; align-items: center; gap: 10px; }
         .user-circle { width: 32px; height: 32px; background: #3b82f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; cursor: pointer; border: 2px solid white; }
-        
+
         .search-bar-wrap { background: #111; padding: 10px 30px; border-bottom: 1px solid #333; display: flex; align-items: center; gap: 10px; }
         .search-bar-wrap input { margin: 0; background: #2a2a2a; border: 1px solid #444; color: white; border-radius: 8px; padding: 8px 14px; font-size: 14px; width: 340px; }
         .search-bar-wrap input::placeholder { color: #888; }
+        .search-bar-wrap input:focus { outline: none; border-color: #3b82f6; }
         .search-count { font-size: 12px; font-weight: bold; margin-left: 5px; }
-        
+
         .container { display: flex; width: 100%; flex: 1; overflow: hidden; }
         .section { flex: 2; display: flex; flex-direction: column; height: 100%; border-right: 1px solid #dee2e6; }
         .section:last-child { border-right: none; flex: 3; }
-        
-        .section-header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: flex-end; 
-            padding: 10px 20px 15px 20px; 
-            background: #f1f3f5; 
-            border-bottom: 1px solid #dee2e6; 
-            min-height: 75px; 
-            box-sizing: border-box;
-        }
+
+        .section-header { display: flex; justify-content: space-between; align-items: flex-end; padding: 10px 20px 15px 20px; background: #f1f3f5; border-bottom: 1px solid #dee2e6; min-height: 75px; box-sizing: border-box; }
         .section-header h2 { margin: 0; font-size: 18px; font-weight: 800; line-height: 1; }
-        
-        /* [수정] 라벨이 입력 박스의 중간에 오도록 align-items: center 적용 */
-        .filter-group { 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            background: transparent;
-            margin-bottom: -2px; /* 바닥 라인 미세 조정 */
-        }
-        .filter-label { font-size: 12px; font-weight: 700; color: #475569; white-space: nowrap; display: flex; align-items: center; gap: 4px; }
-        .filter-date-input { 
-            border: 1px solid #cbd5e1; 
-            border-radius: 6px; 
-            padding: 5px 8px; 
-            font-size: 13px; 
-            outline: none; 
-            background: #ffffff; 
-            cursor: pointer;
-            width: 155px;
-            margin: 0 !important; /* 마진 완전 제거 */
-        }
-        .filter-clear-btn { 
-            background: #64748b; 
-            border: none; 
-            color: white; 
-            border-radius: 6px; 
-            padding: 6px 12px; 
-            font-size: 11px; 
-            cursor: pointer; 
-            font-weight: bold;
-            transition: background 0.2s;
-        }
+        .filter-group { display: flex; align-items: center; gap: 10px; background: transparent; margin-bottom: -2px; }
+        .filter-label { font-size: 12px; font-weight: 700; color: #475569; white-space: nowrap; }
+        .filter-date-input { border: 1px solid #cbd5e1; border-radius: 6px; padding: 5px 8px; font-size: 13px; outline: none; background: #ffffff; cursor: pointer; width: 155px; margin: 0 !important; }
+        .filter-clear-btn { background: #64748b; border: none; color: white; border-radius: 6px; padding: 6px 12px; font-size: 11px; cursor: pointer; font-weight: bold; }
         .filter-clear-btn:hover { background: #334155; }
-        
+
         .mini-add-btn { padding: 8px 15px; border: none; border-radius: 6px; cursor: pointer; background: #3b82f6; color: white; font-weight: bold; font-size: 13px; }
         .board-content { padding: 20px; flex: 1; display: flex; gap: 15px; overflow-x: auto; background: #f8f9fa; }
-        .column { background: #ebedf0; border-radius: 12px; min-width: 280px; flex: 1; padding: 12px; display: flex; flex-direction: column; position: relative; }
+        .column { background: #ebedf0; border-radius: 12px; min-width: 280px; flex: 1; padding: 12px; display: flex; flex-direction: column; }
         .column.drag-over { background: #dfe3e8; border: 2px dashed #3b82f6; }
         .column h3 { font-size: 14px; color: #495057; margin: 0 0 10px 0; text-align: center; background: rgba(255,255,255,0.7); padding: 6px; border-radius: 6px; font-weight: 700; }
         .list { flex: 1; overflow-y: auto; min-height: 150px; }
-
         .no-result-msg { display: none; text-align: center; color: #94a3b8; font-size: 12px; margin-top: 30px; border: 1px dashed #cbd5e1; padding: 20px; border-radius: 10px; background: white; }
-        .card.search-hidden { display: none; }
-        .card.selected { border-left-color: #3b82f6; box-shadow: 0 0 0 2px #93c5fd; }
 
-        /* 다중선택 액션바 */
+        /* 다중선택 */
+        .card.search-hidden { display: none; }
+        .card.selected { border-left-color: #3b82f6 !important; box-shadow: 0 0 0 2px #93c5fd; }
         .bulk-bar { display: none; position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; border-radius: 14px; padding: 12px 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.35); z-index: 500; align-items: center; gap: 14px; white-space: nowrap; }
         .bulk-bar.visible { display: flex; }
         .bulk-bar-count { font-size: 13px; font-weight: 700; color: #93c5fd; }
@@ -85,21 +48,28 @@
         .bulk-bar-move:hover { background: #2563eb; }
         .bulk-bar-cancel { background: #475569; border: none; color: #cbd5e1; font-size: 12px; padding: 7px 12px; border-radius: 8px; cursor: pointer; }
 
+        /* 카드 */
         .card { background: white; padding: 0; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); margin-bottom: 12px; border-left: 5px solid #adb5bd; position: relative; overflow: hidden; cursor: grab; }
         .card:active { cursor: grabbing; }
+        .card-check { position: absolute; left: 15px; top: 18px; width: 22px; height: 22px; cursor: pointer; accent-color: #3b82f6; z-index: 20; }
+        .card-action-btns { position: absolute; top: 12px; right: 12px; display: flex; flex-direction: column; gap: 4px; z-index: 20; }
+        .btn-mini { padding: 3px 6px; font-size: 10px; background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 4px; color: #777; cursor: pointer; font-weight: bold; }
         .card-click-area { padding: 15px 15px 10px 48px; cursor: pointer; }
         .card-click-area.no-check { padding-left: 15px; }
-        .card-check { position: absolute; left: 15px; top: 18px; width: 22px; height: 22px; cursor: pointer; accent-color: #3b82f6; z-index: 20; }
         .creator-tag { font-size: 11px; color: #3b82f6; font-weight: bold; margin-bottom: 5px; display: block; }
         .card .title { font-weight: 800; font-size: 16px; margin-bottom: 6px; color: #1a1a1a; padding-right: 72px; word-break: break-all; }
         .card .info { font-size: 13px; color: #555; line-height: 1.6; white-space: pre-wrap; }
         .highlight-red { color: #e03131; font-weight: 900; font-size: 14px; }
         .comment-preview { margin-top: 8px; font-size: 12px; color: #099268; background: #ebfbee; padding: 4px 8px; border-radius: 4px; border-left: 3px solid #2f9e44; }
-        .card-action-btns { position: absolute; top: 12px; right: 12px; display: flex; flex-direction: column; gap: 4px; z-index: 20; }
-        .btn-mini { padding: 3px 6px; font-size: 10px; background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 4px; color: #777; cursor: pointer; font-weight: bold; }
-        .card-footer { display: flex; justify-content: flex-end; align-items: center; padding: 8px 15px; border-top: 1px solid #f8f9fa; background: #fff; }
-        .assignee-select { font-size: 11px; padding: 4px; border-radius: 4px; border: 1px solid #ddd; background: #fafafa; cursor: pointer; z-index: 20; width: auto; margin: 0; }
 
+        /* 카드 푸터 & 인지확인 */
+        .card-footer { display: flex; justify-content: space-between; align-items: center; padding: 8px 15px; border-top: 1px solid #f1f5f9; background: #fff; }
+        .assignee-select { font-size: 11px; padding: 4px; border-radius: 4px; border: 1px solid #ddd; background: #fafafa; cursor: pointer; z-index: 20; width: auto; margin: 0; }
+        .ack-btn { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 20px; border: 1.5px solid #e2e8f0; background: #f8fafc; cursor: pointer; font-size: 11px; font-weight: 700; color: #94a3b8; transition: all 0.15s; white-space: nowrap; }
+        .ack-btn.ack-done { background: #dcfce7; border-color: #16a34a; color: #15803d; }
+        .ack-btn:hover:not(.ack-done) { border-color: #86efac; color: #22c55e; background: #f0fdf4; }
+
+        /* 모달 */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(2px); }
         .modal-content { background: white; margin: 5% auto; padding: 30px; border-radius: 15px; width: 450px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); position: relative; }
         .view-modal-content { width: 550px; }
@@ -118,7 +88,7 @@
 <div class="header">
     <h1>BIKEBANK 업무소통</h1>
     <div class="user-profile">
-        <span id="userNameDisplay" style="font-size: 13px; font-weight: bold;">성함 설정 필요</span>
+        <span id="userNameDisplay" style="font-size:13px; font-weight:bold;">성함 설정 필요</span>
         <div class="user-circle" onclick="askUserName()">ID</div>
     </div>
 </div>
@@ -127,14 +97,13 @@
     <span style="color:#aaa; font-size:13px; font-weight:bold; white-space:nowrap;">🔍 검색</span>
     <input type="text" id="searchInput" placeholder="제목 또는 내용으로 검색..." oninput="applyFilters()">
     <span class="search-count" id="searchCount"></span>
-    <button onclick="document.getElementById('searchInput').value=''; applyFilters();"
- style="background:#333; border:none; color:#aaa; padding:6px 12px; border-radius:6px; cursor:pointer; font-size:12px;">✕ 초기화</button>
+    <button onclick="document.getElementById('searchInput').value=''; applyFilters();" style="background:#333; border:none; color:#aaa; padding:6px 12px; border-radius:6px; cursor:pointer; font-size:12px;">✕ 초기화</button>
 </div>
 
 <div class="container">
     <div class="section">
         <div class="section-header">
-            <div style="display: flex; align-items: flex-end; gap: 15px;">
+            <div style="display:flex; align-items:flex-end; gap:15px;">
                 <h2>🔄 상시반납</h2>
                 <div class="filter-group">
                     <span class="filter-label">📅 반납일 필터</span>
@@ -147,14 +116,10 @@
         </div>
         <div class="board-content">
             <div class="column" id="return_todo" ondrop="handleDrop(event)" ondragover="allowDrop(event)" ondragleave="clearDragOver(event)">
-                <h3>📥 반납접수</h3>
-                <div class="list"></div>
-                <div class="no-result-msg">🚫 해당 반납일의 건이 없습니다.</div>
+                <h3>📥 반납접수</h3><div class="list"></div><div class="no-result-msg">🚫 해당 반납일의 건이 없습니다.</div>
             </div>
             <div class="column" id="return_done" ondrop="handleDrop(event)" ondragover="allowDrop(event)" ondragleave="clearDragOver(event)">
-                <h3>✅ 반납완료</h3>
-                <div class="list"></div>
-                <div class="no-result-msg">🚫 해당 반납일의 건이 없습니다.</div>
+                <h3>✅ 반납완료</h3><div class="list"></div><div class="no-result-msg">🚫 해당 반납일의 건이 없습니다.</div>
             </div>
         </div>
     </div>
@@ -180,8 +145,8 @@
 <!-- 상세보기 모달 -->
 <div id="viewModal" class="modal" onclick="closeViewModal(event)">
     <div class="modal-content view-modal-content" onclick="event.stopPropagation()">
-        <div class="view-title" id="viewTitle">업무 제목</div>
-        <div class="view-info" id="viewInfo">상세 내용</div>
+        <div class="view-title" id="viewTitle"></div>
+        <div class="view-info" id="viewInfo"></div>
         <div class="comment-section">
             <label class="comment-label">📝 처리자 메모</label>
             <textarea id="commentArea" class="comment-area" rows="3" placeholder="내용을 남겨주세요..."></textarea>
@@ -228,7 +193,7 @@
 
 <!-- 다중 이동 액션바 -->
 <div class="bulk-bar" id="bulkBar">
-    <span class="bulk-bar-count" id="bulkCount">0개 선택</span>
+    <span class="bulk-bar-count" id="bulkCount">0개 선택됨</span>
     <span style="color:#475569;">→ 이동:</span>
     <select id="bulkTarget">
         <option value="">-- 컬럼 선택 --</option>
@@ -250,13 +215,18 @@
     const SUPABASE_URL = 'https://orormhalgmcwrgfnwayw.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9yb3JtaGFsZ21jd3JnZm53YXl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4MzEwNDMsImV4cCI6MjA4NzQwNzA0M30.QRbWimFb-uOI4KCY4EP6sN5xnxKxEVlP0solHO8WPGw';
     const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    const users = ["담당미지정", "김삼열", "김동욱", "한정희", "이소현", "이상진", "이영은", "채수지", "전현지", "김유경", "김규범", "정영은", "이재근"];
+    const users = ["담당미지정","김삼열","김동욱","한정희","이소현","이상진","이영은","채수지","전현지","김유경","김규범","정영은","이재근"];
+    const selectedCards = new Map();
 
-    window.onload = () => { checkUser(); loadAll(); client.channel('any').on('postgres_changes', { event: '*', schema: 'public', table: 'tasks' }, () => loadAll()).subscribe(); };
+    window.onload = () => {
+        checkUser();
+        loadAll();
+        client.channel('any').on('postgres_changes', { event: '*', schema: 'public', table: 'tasks' }, () => loadAll()).subscribe();
+    };
 
     function checkUser() { const n = localStorage.getItem('bb_user_name'); if (!n) askUserName(); else updateUserDisplay(n); }
     function askUserName() { const n = prompt("본인 성함을 입력해 주세요 (로그 기록용):"); if (n && n.trim()) { localStorage.setItem('bb_user_name', n.trim()); updateUserDisplay(n.trim()); } else if (!localStorage.getItem('bb_user_name')) askUserName(); }
-    function updateUserDisplay(n) { document.getElementById('userNameDisplay').innerText = n; document.querySelector('.user-circle').innerText = n.substring(0, 1); }
+    function updateUserDisplay(n) { document.getElementById('userNameDisplay').innerText = n; document.querySelector('.user-circle').innerText = n.substring(0,1); }
 
     async function loadAll() {
         const { data } = await client.from('tasks').select('*').order('created_at', { ascending: false });
@@ -265,28 +235,35 @@
 
         data.forEach(item => {
             const card = document.createElement('div');
-            card.className = 'card'; card.draggable = true; card.id = "card-" + item.id;
+            card.className = 'card';
+            card.draggable = true;
+            card.id = 'card-' + item.id;
             card.setAttribute('data-id', item.id);
+
             const isReturn = item.description.includes('🚗 [상시반납]');
             card.setAttribute('data-is-return', isReturn);
 
             const parts = item.description.split('\n(🕒');
             let mainInfo = parts[0];
             const historyData = parts.slice(1).map(p => '(🕒' + p).reverse().join('\n');
-            
-            let returnDate = "";
+
+            let returnDate = '';
             if (isReturn) {
                 const retMatch = mainInfo.match(/반납: (\d{4}-\d{2}-\d{2})/);
                 if (retMatch) returnDate = retMatch[1];
-                mainInfo = mainInfo.replace('🚗 [상시반납]\n', '').replace(/📅 접수: (.*?) \/ 반납: (.*?)\n/, '📅 <span class="highlight-red">반납일: $2</span>\n📅 접수일: $1\n');
+                mainInfo = mainInfo
+                    .replace('🚗 [상시반납]\n', '')
+                    .replace(/📅 접수: (.*?) \/ 반납: (.*?)\n/, '📅 <span class="highlight-red">반납일: $2</span>\n📅 접수일: $1\n');
             }
             card.setAttribute('data-ret-only', returnDate);
 
             const targetId = isReturn ? `return_${item.status}` : `task_${item.status}`;
             const isReturnTodo = targetId === 'return_todo';
+            const ackDone = item.is_checked;
+            const key = String(item.id);
 
             card.innerHTML = `
-                ${isReturnTodo ? `<input type="checkbox" class="card-check" ${item.is_checked ? 'checked' : ''}>` : ''}
+                ${isReturnTodo ? `<input type="checkbox" class="card-check">` : ''}
                 <div class="card-action-btns">
                     <button class="btn-mini btn-edit">수정</button>
                     ${historyData ? `<button class="btn-mini btn-hist">이력</button>` : ''}
@@ -297,112 +274,104 @@
                     <div class="info">${mainInfo}</div>
                     ${item.comment ? `<div class="comment-preview">💬 ${item.comment}</div>` : ''}
                 </div>
-                <div class="card-footer"><select class="assignee-select">${users.map(u => `<option value="${u}" ${item.assignee === u ? 'selected' : ''}>${u}</option>`).join('')}</select></div>
+                <div class="card-footer">
+                    ${isReturn
+                        ? `<button class="ack-btn${ackDone ? ' ack-done' : ''}">✓ ${ackDone ? '확인완료' : '인지확인'}</button>`
+                        : '<span></span>'}
+                    <select class="assignee-select">${users.map(u => `<option value="${u}" ${item.assignee === u ? 'selected' : ''}>${u}</option>`).join('')}</select>
+                </div>
             `;
-            
-            if (isReturnTodo) {
-                const cb = card.querySelector('.card-check');
-                // 실시간 재렌더 시 선택 상태 복원 (버그2 수정)
-                if (selectedCards.has(String(item.id))) {
-                    cb.checked = true;
-                    card.classList.add('selected');
-                    selectedCards.set(String(item.id), { cardEl: card, isReturn: true });
-                }
-                cb.onclick = (e) => {
+
+            // 인지확인 버튼
+            if (isReturn) {
+                const ackBtn = card.querySelector('.ack-btn');
+                ackBtn.onclick = (e) => {
                     e.stopPropagation();
-                    updateCheck(item.id, e.target.checked); // 버그1: DB 저장 복원
-                    toggleSelect(card, String(item.id), e.target.checked);
+                    const next = !ackBtn.classList.contains('ack-done');
+                    ackBtn.classList.toggle('ack-done', next);
+                    ackBtn.textContent = `✓ ${next ? '확인완료' : '인지확인'}`;
+                    updateCheck(item.id, next);
                 };
             }
+
+            // 멀티셀렉트 체크박스 (반납접수만)
+            if (isReturnTodo) {
+                const cb = card.querySelector('.card-check');
+                if (selectedCards.has(key)) {
+                    cb.checked = true;
+                    card.classList.add('selected');
+                    selectedCards.set(key, { cardEl: card, isReturn: true });
+                }
+                cb.onclick = (e) => { e.stopPropagation(); toggleSelect(card, key, e.target.checked); };
+            }
+
             card.querySelector('.btn-edit').onclick = (e) => { e.stopPropagation(); openEditModal(item); };
             if (card.querySelector('.btn-hist')) card.querySelector('.btn-hist').onclick = (e) => { e.stopPropagation(); showHistory(historyData.replace(/\n/g, '<br>')); };
             card.querySelector('.assignee-select').onclick = (e) => e.stopPropagation();
             card.querySelector('.assignee-select').onchange = (e) => updateAssignee(item.id, e.target.value);
             card.querySelector('.card-click-area').onclick = () => openViewModal(item);
             card.setAttribute('data-search', (item.title + ' ' + item.description + ' ' + (item.comment || '')).toLowerCase());
-            card.ondragstart = (ev) => { ev.dataTransfer.setData("card_id", ev.target.id); ev.target.style.opacity = '0.4'; };
+            card.ondragstart = (ev) => { ev.dataTransfer.setData('card_id', ev.target.id); ev.target.style.opacity = '0.4'; };
             card.ondragend = (ev) => { ev.target.style.opacity = '1'; };
-            
+
             document.querySelector(`#${targetId} .list`)?.appendChild(card);
         });
-        applyFilters(); 
+        applyFilters();
     }
 
+    // ── 필터 ──────────────────────────────────────────────────
     function applyFilters() {
         const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
         const dateFilter = document.getElementById('dateFilter').value;
-        const allCards = document.querySelectorAll('.card');
         let totalVisible = 0;
 
-        allCards.forEach(card => {
+        document.querySelectorAll('.card').forEach(card => {
             const isReturn = card.getAttribute('data-is-return') === 'true';
             const haystack = card.getAttribute('data-search') || '';
             const retDate = card.getAttribute('data-ret-only') || '';
-            const matchKeyword = !keyword || haystack.includes(keyword);
-            let matchDate = true;
-            if (dateFilter && isReturn) matchDate = (retDate === dateFilter);
-
-            if (matchKeyword && matchDate) {
-                card.classList.remove('search-hidden');
-                totalVisible++;
-            } else { card.classList.add('search-hidden'); }
+            const kwOk = !keyword || haystack.includes(keyword);
+            const dateOk = (!dateFilter || !isReturn) ? true : retDate === dateFilter;
+            if (kwOk && dateOk) { card.classList.remove('search-hidden'); totalVisible++; }
+            else { card.classList.add('search-hidden'); }
         });
 
         document.querySelectorAll('.column').forEach(col => {
-            const visibleCount = col.querySelectorAll('.card:not(.search-hidden)').length;
-            col.querySelector('.no-result-msg').style.display = visibleCount === 0 ? 'block' : 'none';
+            col.querySelector('.no-result-msg').style.display =
+                col.querySelectorAll('.card:not(.search-hidden)').length === 0 ? 'block' : 'none';
         });
 
         const countEl = document.getElementById('searchCount');
-        if (keyword || dateFilter) {
-            countEl.textContent = `${totalVisible}건 검색됨`;
-            countEl.style.color = totalVisible > 0 ? '#4ade80' : '#f87171';
-        } else { countEl.textContent = ''; }
+        if (keyword || dateFilter) { countEl.textContent = `${totalVisible}건 검색됨`; countEl.style.color = totalVisible > 0 ? '#4ade80' : '#f87171'; }
+        else { countEl.textContent = ''; }
     }
 
+    // ── DB ────────────────────────────────────────────────────
     async function updateCheck(id, c) { await client.from('tasks').update({ is_checked: c }).eq('id', id); }
     async function updateAssignee(id, n) { await client.from('tasks').update({ assignee: n }).eq('id', id); }
 
-    // ── 다중 선택 ──────────────────────────────────────────
-    const selectedCards = new Map(); // id → { cardEl, isReturn }
-
-    function toggleSelect(cardEl, id, checked) {
-        const key = String(id);
-        if (checked) {
-            selectedCards.set(key, { cardEl, isReturn: cardEl.getAttribute('data-is-return') === 'true' });
-            cardEl.classList.add('selected');
-        } else {
-            selectedCards.delete(key);
-            cardEl.classList.remove('selected');
-        }
+    // ── 다중 선택 ─────────────────────────────────────────────
+    function toggleSelect(cardEl, key, checked) {
+        if (checked) { selectedCards.set(key, { cardEl, isReturn: true }); cardEl.classList.add('selected'); }
+        else { selectedCards.delete(key); cardEl.classList.remove('selected'); }
         updateBulkBar();
     }
 
     function updateBulkBar() {
-        const bar = document.getElementById('bulkBar');
         const cnt = selectedCards.size;
         document.getElementById('bulkCount').textContent = `${cnt}개 선택됨`;
-        bar.classList.toggle('visible', cnt > 0);
+        document.getElementById('bulkBar').classList.toggle('visible', cnt > 0);
     }
 
     function selectAllReturn() {
-        // 필터 적용 후 보이는 반납 카드만 선택
         const btn = document.getElementById('selectAllBtn');
-        const allSelected = btn.dataset.allSelected === 'true';
-
-        if (allSelected) {
-            clearSelection();
-            return;
-        }
-
-        const returnCards = document.querySelectorAll('#return_todo .card:not(.search-hidden)');
-        returnCards.forEach(card => {
-            const dbId = String(card.getAttribute('data-id'));
-            if (!selectedCards.has(dbId)) {
+        if (btn.dataset.allSelected === 'true') { clearSelection(); return; }
+        document.querySelectorAll('#return_todo .card:not(.search-hidden)').forEach(card => {
+            const key = String(card.getAttribute('data-id'));
+            if (!selectedCards.has(key)) {
                 card.classList.add('selected');
                 const cb = card.querySelector('.card-check');
                 if (cb) cb.checked = true;
-                selectedCards.set(dbId, { cardEl: card, isReturn: true });
+                selectedCards.set(key, { cardEl: card, isReturn: true });
             }
         });
         btn.dataset.allSelected = 'true';
@@ -425,57 +394,61 @@
     async function bulkMove() {
         const target = document.getElementById('bulkTarget').value;
         if (!target) return alert('이동할 컬럼을 선택하세요.');
-        const [section, newStatus] = target.split('_');   // e.g. "return", "done"
-        const targetIsReturn = section === 'return';
+        const parts = target.split('_');
+        const newStatus = parts[1];
+        const targetIsReturn = parts[0] === 'return';
         const myName = localStorage.getItem('bb_user_name') || '익명';
-        const logTime = new Date().toLocaleString('ko-KR', {month:'numeric', day:'numeric', hour:'numeric', minute:'numeric'});
+        const logTime = new Date().toLocaleString('ko-KR', {month:'numeric',day:'numeric',hour:'numeric',minute:'numeric'});
 
-        // 반납↔일반업무 구역 교차 이동 방지
         const crossMove = [...selectedCards.values()].some(({ isReturn }) => isReturn !== targetIsReturn);
-        if (crossMove) return alert('반납 카드는 반납 구역으로만,\n일반업무 카드는 일반업무 구역으로만 이동할 수 있습니다.');
+        if (crossMove) return alert('반납 카드는 반납 구역으로만 이동할 수 있습니다.');
 
-        const ids = [...selectedCards.keys()];
-        await Promise.all(ids.map(async id => {
-            const { data: item } = await client.from('tasks').select('description').eq('id', id).single();
-            const newDesc = item.description + `\n(🕒 ${logTime} ${myName} 이동: ${newStatus})`;
+        await Promise.all([...selectedCards.keys()].map(async id => {
+            const { data: row } = await client.from('tasks').select('description').eq('id', id).single();
+            const newDesc = row.description + `\n(🕒 ${logTime} ${myName} 이동: ${newStatus})`;
             await client.from('tasks').update({ status: newStatus, description: newDesc }).eq('id', id);
         }));
 
         clearSelection();
         document.getElementById('bulkTarget').value = '';
     }
-    // ───────────────────────────────────────────────────────
 
+    // ── 드래그앤드롭 ──────────────────────────────────────────
     async function handleDrop(ev) {
         ev.preventDefault();
         const column = ev.currentTarget;
-        column.classList.remove('drag-over');        const cardId = ev.dataTransfer.getData("card_id");
-        const cardElement = document.getElementById(cardId);
-        if (!cardElement) return;
-        const dbId = cardElement.getAttribute('data-id');
+        column.classList.remove('drag-over');
+        const cardId = ev.dataTransfer.getData('card_id');
+        const cardEl = document.getElementById(cardId);
+        if (!cardEl) return;
+        const dbId = cardEl.getAttribute('data-id');
         const nextStatus = column.id.split('_')[1];
-        const isReturnCard = cardElement.getAttribute('data-is-return') === 'true';
-        if (isReturnCard !== column.id.startsWith('return')) return alert("해당 구역으로 이동할 수 없습니다.");
-        const { data: item } = await client.from('tasks').select('description').eq('id', dbId).single();
-        const newDesc = item.description + `\n(🕒 ${new Date().toLocaleString('ko-KR', {month:'numeric', day:'numeric', hour:'numeric', minute:'numeric'})} ${localStorage.getItem('bb_user_name')} 이동: ${nextStatus})`;
+        const isReturnCard = cardEl.getAttribute('data-is-return') === 'true';
+        if (isReturnCard !== column.id.startsWith('return')) return alert('해당 구역으로 이동할 수 없습니다.');
+        const myName = localStorage.getItem('bb_user_name') || '익명';
+        const logTime = new Date().toLocaleString('ko-KR', {month:'numeric',day:'numeric',hour:'numeric',minute:'numeric'});
+        const { data: row } = await client.from('tasks').select('description').eq('id', dbId).single();
+        const newDesc = row.description + `\n(🕒 ${logTime} ${myName} 이동: ${nextStatus})`;
         await client.from('tasks').update({ status: nextStatus, description: newDesc }).eq('id', dbId);
     }
-
     function allowDrop(ev) { ev.preventDefault(); ev.currentTarget.classList.add('drag-over'); }
     function clearDragOver(ev) { ev.currentTarget.classList.remove('drag-over'); }
 
+    // ── 모달 ─────────────────────────────────────────────────
     async function saveComment() {
         const id = document.getElementById('currentViewId').value;
         const comment = document.getElementById('commentArea').value;
         await client.from('tasks').update({ comment }).eq('id', id);
-        alert("메모가 저장되었습니다.");
+        alert('메모가 저장되었습니다.');
     }
 
     function openViewModal(item) {
         document.getElementById('currentViewId').value = item.id;
         document.getElementById('viewTitle').innerText = item.title.replace(/^\[반납\]\s*/, '');
         let info = item.description.split('\n(🕒')[0];
-        document.getElementById('viewInfo').innerHTML = info.replace('🚗 [상시반납]\n', '').replace(/반납: (.*?)\n/, '<span class="highlight-red">반납일: $1</span>\n');
+        document.getElementById('viewInfo').innerHTML = info
+            .replace('🚗 [상시반납]\n', '')
+            .replace(/반납: (.*?)\n/, '<span class="highlight-red">반납일: $1</span>\n');
         document.getElementById('commentArea').value = item.comment || '';
         document.getElementById('viewModal').style.display = 'block';
     }
@@ -487,13 +460,13 @@
     function openModal(type, isEdit = false) {
         if (!isEdit) {
             document.getElementById('editId').value = '';
-            document.querySelectorAll('#taskModal input, #taskModal textarea').forEach(el => { if(el.type !== 'date' && el.type !== 'hidden') el.value = ''; });
+            document.querySelectorAll('#taskModal input, #taskModal textarea').forEach(el => { if (el.type !== 'date' && el.type !== 'hidden') el.value = ''; });
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('taskDate').value = today;
             document.getElementById('retDate').value = today;
             document.getElementById('retReturnDate').value = today;
             document.getElementById('modalDeleteBtn').style.display = 'none';
-            document.getElementById('saveBtn').innerText = "등록하기";
+            document.getElementById('saveBtn').innerText = '등록하기';
         }
         document.getElementById('currentType').value = type;
         document.getElementById('taskForm').style.display = type === 'task' ? 'block' : 'none';
@@ -506,7 +479,7 @@
         openModal(isReturn ? 'return' : 'task', true);
         document.getElementById('editId').value = item.id;
         document.getElementById('modalDeleteBtn').style.display = 'block';
-        document.getElementById('saveBtn').innerText = "수정 완료";
+        document.getElementById('saveBtn').innerText = '수정 완료';
         if (!isReturn) {
             document.getElementById('taskTitle').value = item.title;
             const descMatch = item.description.split('📝 내용: ')[1];
@@ -528,13 +501,11 @@
     async function saveData() {
         const btn = document.getElementById('saveBtn');
         if (btn.disabled) return;
-        btn.disabled = true;
-        btn.innerText = '저장 중...';
-
+        btn.disabled = true; btn.innerText = '저장 중...';
         const type = document.getElementById('currentType').value;
         const editId = document.getElementById('editId').value;
         const myName = localStorage.getItem('bb_user_name') || '익명';
-        const logTime = new Date().toLocaleString('ko-KR', {month:'numeric', day:'numeric', hour:'numeric', minute:'numeric'});
+        const logTime = new Date().toLocaleString('ko-KR', {month:'numeric',day:'numeric',hour:'numeric',minute:'numeric'});
         let title, newDescription;
         if (type === 'task') {
             title = document.getElementById('taskTitle').value;
@@ -543,12 +514,7 @@
             title = `[반납] ${document.getElementById('retCarNum').value}`;
             newDescription = `🚗 [상시반납]\n📅 접수: ${document.getElementById('retDate').value} / 반납: ${document.getElementById('retReturnDate').value}\n📍 장소: ${document.getElementById('retPlace').value}\n👤 고객: ${document.getElementById('retCustomer').value}\n🔢 차량: ${document.getElementById('retCarNum').value}`;
         }
-        if (!title) {
-            alert("제목을 입력하세요.");
-            btn.disabled = false;
-            btn.innerText = editId ? '수정 완료' : '등록하기';
-            return;
-        }
+        if (!title) { alert('제목을 입력하세요.'); btn.disabled = false; btn.innerText = editId ? '수정 완료' : '등록하기'; return; }
         if (editId) {
             const { data: old } = await client.from('tasks').select('description').eq('id', editId).single();
             const oldLogs = old.description.includes('\n(🕒') ? '\n(🕒' + old.description.split('\n(🕒').slice(1).join('\n(🕒') : '';
@@ -561,10 +527,11 @@
     }
 
     async function deleteTask() {
-        if (confirm("삭제하시겠습니까?")) {
-            await client.from('tasks').delete().eq('id', document.getElementById('editId').value);
-            closeModal();
-        }
+        const input = prompt('삭제하려면 "삭제하기" 를 입력하세요.');
+        if (input === null) return;
+        if (input.trim() !== '삭제하기') return alert('입력이 일치하지 않아 삭제되지 않았습니다.');
+        await client.from('tasks').delete().eq('id', document.getElementById('editId').value);
+        closeModal();
     }
 </script>
 </body>
