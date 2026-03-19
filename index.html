@@ -68,6 +68,7 @@
         .mini-add-btn { padding: 8px 15px; border: none; border-radius: 6px; cursor: pointer; background: #3b82f6; color: white; font-weight: bold; font-size: 13px; }
         .board-content { padding: 20px; flex: 1; display: flex; gap: 15px; overflow-x: auto; background: #f8f9fa; }
         .column { background: #ebedf0; border-radius: 12px; min-width: 280px; flex: 1; padding: 12px; display: flex; flex-direction: column; position: relative; }
+        .column.drag-over { background: #dfe3e8; border: 2px dashed #3b82f6; }
         .column h3 { font-size: 14px; color: #495057; margin: 0 0 10px 0; text-align: center; background: rgba(255,255,255,0.7); padding: 6px; border-radius: 6px; font-weight: 700; }
         .list { flex: 1; overflow-y: auto; min-height: 150px; }
 
@@ -87,6 +88,7 @@
         .card { background: white; padding: 0; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); margin-bottom: 12px; border-left: 5px solid #adb5bd; position: relative; overflow: hidden; cursor: grab; }
         .card:active { cursor: grabbing; }
         .card-click-area { padding: 15px 15px 10px 48px; cursor: pointer; }
+        .card-click-area.no-check { padding-left: 15px; }
         .card-check { position: absolute; left: 15px; top: 18px; width: 22px; height: 22px; cursor: pointer; accent-color: #3b82f6; z-index: 20; }
         .creator-tag { font-size: 11px; color: #3b82f6; font-weight: bold; margin-bottom: 5px; display: block; }
         .card .title { font-weight: 800; font-size: 16px; margin-bottom: 6px; color: #1a1a1a; padding-right: 72px; word-break: break-all; }
@@ -144,12 +146,12 @@
             <button class="mini-add-btn" style="background:#495057;" onclick="openModal('return')">＋ 반납접수</button>
         </div>
         <div class="board-content">
-            <div class="column" id="return_todo" ondrop="handleDrop(event)" ondragover="allowDrop(event)">
+            <div class="column" id="return_todo" ondrop="handleDrop(event)" ondragover="allowDrop(event)" ondragleave="clearDragOver(event)">
                 <h3>📥 반납접수</h3>
                 <div class="list"></div>
                 <div class="no-result-msg">🚫 해당 반납일의 건이 없습니다.</div>
             </div>
-            <div class="column" id="return_done" ondrop="handleDrop(event)" ondragover="allowDrop(event)">
+            <div class="column" id="return_done" ondrop="handleDrop(event)" ondragover="allowDrop(event)" ondragleave="clearDragOver(event)">
                 <h3>✅ 반납완료</h3>
                 <div class="list"></div>
                 <div class="no-result-msg">🚫 해당 반납일의 건이 없습니다.</div>
@@ -162,13 +164,13 @@
             <button class="mini-add-btn" onclick="openModal('task')">＋ 새 요청</button>
         </div>
         <div class="board-content">
-            <div class="column" id="task_todo" ondrop="handleDrop(event)" ondragover="allowDrop(event)">
+            <div class="column" id="task_todo" ondrop="handleDrop(event)" ondragover="allowDrop(event)" ondragleave="clearDragOver(event)">
                 <h3>📥 접수</h3><div class="list"></div><div class="no-result-msg">결과 없음</div>
             </div>
-            <div class="column" id="task_doing" ondrop="handleDrop(event)" ondragover="allowDrop(event)">
+            <div class="column" id="task_doing" ondrop="handleDrop(event)" ondragover="allowDrop(event)" ondragleave="clearDragOver(event)">
                 <h3>🚧 진행 중</h3><div class="list"></div><div class="no-result-msg">결과 없음</div>
             </div>
-            <div class="column" id="task_done" ondrop="handleDrop(event)" ondragover="allowDrop(event)">
+            <div class="column" id="task_done" ondrop="handleDrop(event)" ondragover="allowDrop(event)" ondragleave="clearDragOver(event)">
                 <h3>✅ 완료</h3><div class="list"></div><div class="no-result-msg">결과 없음</div>
             </div>
         </div>
@@ -284,12 +286,12 @@
             const isReturnTodo = targetId === 'return_todo';
 
             card.innerHTML = `
-                ${isReturnTodo ? `<input type="checkbox" class="card-check">` : ''}
+                ${isReturnTodo ? `<input type="checkbox" class="card-check" ${item.is_checked ? 'checked' : ''}>` : ''}
                 <div class="card-action-btns">
                     <button class="btn-mini btn-edit">수정</button>
                     ${historyData ? `<button class="btn-mini btn-hist">이력</button>` : ''}
                 </div>
-                <div class="card-click-area" style="${!isReturnTodo ? 'padding-left:15px;' : ''}">
+                <div class="card-click-area${!isReturnTodo ? ' no-check' : ''}">
                     <span class="creator-tag">👤 ${item.assignee === '담당미지정' ? '미지정' : item.assignee + ' 등록'}</span>
                     <div class="title">${isReturn ? item.title.replace(/^\[반납\]\s*/, '') : item.title}</div>
                     <div class="info">${mainInfo}</div>
@@ -299,7 +301,18 @@
             `;
             
             if (isReturnTodo) {
-                card.querySelector('.card-check').onclick = (e) => { e.stopPropagation(); toggleSelect(card, item.id, e.target.checked); };
+                const cb = card.querySelector('.card-check');
+                // 실시간 재렌더 시 선택 상태 복원 (버그2 수정)
+                if (selectedCards.has(String(item.id))) {
+                    cb.checked = true;
+                    card.classList.add('selected');
+                    selectedCards.set(String(item.id), { cardEl: card, isReturn: true });
+                }
+                cb.onclick = (e) => {
+                    e.stopPropagation();
+                    updateCheck(item.id, e.target.checked); // 버그1: DB 저장 복원
+                    toggleSelect(card, String(item.id), e.target.checked);
+                };
             }
             card.querySelector('.btn-edit').onclick = (e) => { e.stopPropagation(); openEditModal(item); };
             if (card.querySelector('.btn-hist')) card.querySelector('.btn-hist').onclick = (e) => { e.stopPropagation(); showHistory(historyData.replace(/\n/g, '<br>')); };
@@ -354,11 +367,12 @@
     const selectedCards = new Map(); // id → { cardEl, isReturn }
 
     function toggleSelect(cardEl, id, checked) {
+        const key = String(id);
         if (checked) {
-            selectedCards.set(id, { cardEl, isReturn: cardEl.getAttribute('data-is-return') === 'true' });
+            selectedCards.set(key, { cardEl, isReturn: cardEl.getAttribute('data-is-return') === 'true' });
             cardEl.classList.add('selected');
         } else {
-            selectedCards.delete(id);
+            selectedCards.delete(key);
             cardEl.classList.remove('selected');
         }
         updateBulkBar();
@@ -383,7 +397,7 @@
 
         const returnCards = document.querySelectorAll('#return_todo .card:not(.search-hidden)');
         returnCards.forEach(card => {
-            const dbId = card.getAttribute('data-id');
+            const dbId = String(card.getAttribute('data-id'));
             if (!selectedCards.has(dbId)) {
                 card.classList.add('selected');
                 const cb = card.querySelector('.card-check');
@@ -435,8 +449,7 @@
     async function handleDrop(ev) {
         ev.preventDefault();
         const column = ev.currentTarget;
-        column.classList.remove('drag-over');
-        const cardId = ev.dataTransfer.getData("card_id");
+        column.classList.remove('drag-over');        const cardId = ev.dataTransfer.getData("card_id");
         const cardElement = document.getElementById(cardId);
         if (!cardElement) return;
         const dbId = cardElement.getAttribute('data-id');
@@ -449,6 +462,7 @@
     }
 
     function allowDrop(ev) { ev.preventDefault(); ev.currentTarget.classList.add('drag-over'); }
+    function clearDragOver(ev) { ev.currentTarget.classList.remove('drag-over'); }
 
     async function saveComment() {
         const id = document.getElementById('currentViewId').value;
