@@ -476,7 +476,7 @@
     }
 
     function openEditModal(item) {
-        const isReturn = item.description.includes('🚗 [상시반납]');
+        const isReturn = (item.description ?? '').includes('🚗 [상시반납]');
         openModal(isReturn ? 'return' : 'task', true);
         document.getElementById('editId').value = item.id;
         document.getElementById('modalDeleteBtn').style.display = 'block';
@@ -518,7 +518,8 @@
         if (!title) { alert('제목을 입력하세요.'); btn.disabled = false; btn.innerText = editId ? '수정 완료' : '등록하기'; return; }
         if (editId) {
             const { data: old } = await client.from('tasks').select('description').eq('id', editId).single();
-            const oldLogs = old.description.includes('\n(🕒') ? '\n(🕒' + old.description.split('\n(🕒').slice(1).join('\n(🕒') : '';
+            const oldDesc = old?.description ?? '';
+            const oldLogs = oldDesc.includes('\n(🕒') ? '\n(🕒' + oldDesc.split('\n(🕒').slice(1).join('\n(🕒') : '';
             await client.from('tasks').update({ title, description: newDescription + oldLogs + `\n(🕒 ${logTime} ${myName} 수정)` }).eq('id', editId);
         } else {
             await client.from('tasks').insert([{ title, status: 'todo', assignee: myName, description: newDescription + `\n(🕒 ${logTime} ${myName} 등록)`, is_checked: false }]);
