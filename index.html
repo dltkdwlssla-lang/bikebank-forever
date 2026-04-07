@@ -240,10 +240,11 @@
             card.id = 'card-' + item.id;
             card.setAttribute('data-id', item.id);
 
-            const isReturn = item.description.includes('🚗 [상시반납]');
+            const desc = item.description ?? '';
+            const isReturn = desc.includes('🚗 [상시반납]');
             card.setAttribute('data-is-return', isReturn);
 
-            const parts = item.description.split('\n(🕒');
+            const parts = desc.split('\n(🕒');
             let mainInfo = parts[0];
             const historyData = parts.slice(1).map(p => '(🕒' + p).reverse().join('\n');
 
