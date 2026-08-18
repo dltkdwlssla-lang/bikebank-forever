@@ -21,15 +21,36 @@
         .section { flex: 2; display: flex; flex-direction: column; height: 100%; border-right: 1px solid #dee2e6; }
         .section:last-child { border-right: none; flex: 3; }
 
-        .section-header { display: flex; justify-content: space-between; align-items: flex-end; padding: 10px 20px 15px 20px; background: #f1f3f5; border-bottom: 1px solid #dee2e6; min-height: 75px; box-sizing: border-box; }
-        .section-header h2 { margin: 0; font-size: 18px; font-weight: 800; line-height: 1; }
-        .filter-group { display: flex; align-items: center; gap: 10px; background: transparent; margin-bottom: -2px; }
-        .filter-label { font-size: 12px; font-weight: 700; color: #475569; white-space: nowrap; }
-        .filter-date-input { border: 1px solid #cbd5e1; border-radius: 6px; padding: 5px 8px; font-size: 13px; outline: none; background: #ffffff; cursor: pointer; width: 155px; margin: 0 !important; }
-        .filter-clear-btn { background: #64748b; border: none; color: white; border-radius: 6px; padding: 6px 12px; font-size: 11px; cursor: pointer; font-weight: bold; }
-        .filter-clear-btn:hover { background: #334155; }
+        .section-header { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; padding: 10px 20px 15px 20px; background: #f1f3f5; border-bottom: 1px solid #dee2e6; min-height: 75px; box-sizing: border-box; }
+        .section-header h2 { margin: 0; font-size: 18px; font-weight: 800; line-height: 1; white-space: nowrap; flex-shrink: 0; }
+        .section-header-left { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; row-gap: 8px; min-width: 0; }
+        .filter-group { display: flex; align-items: center; gap: 8px; background: transparent; margin-bottom: -1px; }
+        .filter-label { font-size: 12px; font-weight: 700; color: #475569; white-space: nowrap; letter-spacing: -0.2px; }
 
-        .mini-add-btn { padding: 8px 15px; border: none; border-radius: 6px; cursor: pointer; background: #3b82f6; color: white; font-weight: bold; font-size: 13px; }
+        /* 기간 필터: 두 개의 날짜 입력을 하나의 알약형 컨트롤로 묶음 */
+        .date-range { display: inline-flex; align-items: center; height: 32px; padding: 0 6px; gap: 2px;
+                      background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;
+                      box-shadow: 0 1px 2px rgba(15,23,42,0.04); transition: border-color .15s, box-shadow .15s, background .15s; }
+        .date-range:hover { border-color: #94a3b8; }
+        .date-range:focus-within { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+        .date-range.range-error { border-color: #e03131; background: #fff5f5; box-shadow: 0 0 0 3px rgba(224,49,49,0.12); }
+
+        .filter-date-input { width: 118px; margin: 0 !important; padding: 4px 2px; border: none !important; background: transparent;
+                             font-family: inherit; font-size: 12.5px; font-weight: 600; color: #1e293b; outline: none; cursor: pointer; }
+        .filter-date-input::-webkit-calendar-picker-indicator { opacity: .45; cursor: pointer; padding: 0; margin-left: 2px; transform: scale(.9); }
+        .filter-date-input:hover::-webkit-calendar-picker-indicator { opacity: .85; }
+        .filter-tilde { font-size: 12px; font-weight: 700; color: #94a3b8; padding: 0 1px; user-select: none; }
+
+        .filter-clear-btn { height: 32px; display: inline-flex; align-items: center; background: #ffffff; border: 1px solid #cbd5e1;
+                            color: #475569; border-radius: 8px; padding: 0 12px; font-size: 11.5px; cursor: pointer; font-weight: 700;
+                            white-space: nowrap; box-shadow: 0 1px 2px rgba(15,23,42,0.04); transition: all .15s; }
+        .filter-clear-btn:hover { background: #f1f5f9; border-color: #94a3b8; color: #1e293b; }
+        .filter-clear-btn.btn-primary { background: #3b82f6; border-color: #3b82f6; color: #ffffff; }
+        .filter-clear-btn.btn-primary:hover { background: #2563eb; border-color: #2563eb; color: #ffffff; }
+        .filter-clear-btn.btn-toggled { background: #1e293b; border-color: #1e293b; color: #ffffff; }
+        .filter-clear-btn.btn-toggled:hover { background: #0f172a; border-color: #0f172a; color: #ffffff; }
+
+        .mini-add-btn { flex-shrink: 0; white-space: nowrap; padding: 8px 15px; border: none; border-radius: 6px; cursor: pointer; background: #3b82f6; color: white; font-weight: bold; font-size: 13px; }
         .board-content { padding: 20px; flex: 1; display: flex; gap: 15px; overflow-x: auto; background: #f8f9fa; }
         .column { background: #ebedf0; border-radius: 12px; min-width: 280px; flex: 1; padding: 12px; display: flex; flex-direction: column; }
         .column.drag-over { background: #dfe3e8; border: 2px dashed #3b82f6; }
@@ -103,23 +124,27 @@
 <div class="container">
     <div class="section">
         <div class="section-header">
-            <div style="display:flex; align-items:flex-end; gap:15px;">
+            <div class="section-header-left">
                 <h2>🔄 상시반납</h2>
                 <div class="filter-group">
-                    <span class="filter-label">📅 반납일 필터</span>
-                    <input type="date" id="dateFilter" class="filter-date-input" onchange="applyFilters()">
-                    <button class="filter-clear-btn" onclick="document.getElementById('dateFilter').value=''; applyFilters();">초기화</button>
-                    <button class="filter-clear-btn" id="selectAllBtn" onclick="selectAllReturn()" style="background:#3b82f6;">전체선택</button>
+                    <span class="filter-label">📅 반납일 기간</span>
+                    <div class="date-range" id="dateRange">
+                        <input type="date" id="dateFrom" class="filter-date-input" onchange="applyFilters()">
+                        <span class="filter-tilde">~</span>
+                        <input type="date" id="dateTo" class="filter-date-input" onchange="applyFilters()">
+                    </div>
+                    <button class="filter-clear-btn" onclick="resetDateFilter()">↺ 초기화</button>
+                    <button class="filter-clear-btn btn-primary" id="selectAllBtn" onclick="selectAllReturn()">전체선택</button>
                 </div>
             </div>
             <button class="mini-add-btn" style="background:#495057;" onclick="openModal('return')">＋ 반납접수</button>
         </div>
         <div class="board-content">
             <div class="column" id="return_todo" ondrop="handleDrop(event)" ondragover="allowDrop(event)" ondragleave="clearDragOver(event)">
-                <h3>📥 반납접수</h3><div class="list"></div><div class="no-result-msg">🚫 해당 반납일의 건이 없습니다.</div>
+                <h3>📥 반납접수</h3><div class="list"></div><div class="no-result-msg">🚫 해당 기간의 건이 없습니다.</div>
             </div>
             <div class="column" id="return_done" ondrop="handleDrop(event)" ondragover="allowDrop(event)" ondragleave="clearDragOver(event)">
-                <h3>✅ 반납완료</h3><div class="list"></div><div class="no-result-msg">🚫 해당 반납일의 건이 없습니다.</div>
+                <h3>✅ 반납완료</h3><div class="list"></div><div class="no-result-msg">🚫 해당 기간의 건이 없습니다.</div>
             </div>
         </div>
     </div>
@@ -218,8 +243,23 @@
     const users = ["담당미지정","김삼열","김동욱","한정희","이소현","이상진","이영은","채수지","전현지","김유경","김규범","정영은","이재근"];
     const selectedCards = new Map();
 
+    // 반납일 기간 필터 기본 시작일 (필요 시 이 값만 수정하면 됨)
+    const DEFAULT_FROM_DATE = '2023-07-01';
+
+    function resetDateFilter(applyNow = true) {
+        const fromEl = document.getElementById('dateFrom');
+        const toEl = document.getElementById('dateTo');
+        fromEl.max = '';
+        toEl.min = '';
+        fromEl.value = DEFAULT_FROM_DATE;
+        toEl.value = '';
+        document.getElementById('dateRange').classList.remove('range-error');
+        if (applyNow) applyFilters();
+    }
+
     window.onload = () => {
         checkUser();
+        resetDateFilter(false);   // 초기 진입 시 기본 시작일만 세팅 (렌더 후 loadAll에서 필터 적용)
         loadAll();
         client.channel('any').on('postgres_changes', { event: '*', schema: 'public', table: 'tasks' }, () => loadAll()).subscribe();
     };
@@ -323,15 +363,31 @@
     // ── 필터 ──────────────────────────────────────────────────
     function applyFilters() {
         const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
-        const dateFilter = document.getElementById('dateFilter').value;
+        const fromEl = document.getElementById('dateFrom');
+        const toEl = document.getElementById('dateTo');
+        const dateFrom = fromEl.value;
+        const dateTo = toEl.value;
         let totalVisible = 0;
+
+        // 달력 위젯에서 역순 선택 자체를 막아줌 (YYYY-MM-DD는 문자열 비교로 대소 판정 가능)
+        toEl.min = dateFrom || '';
+        fromEl.max = dateTo || '';
+        const invalidRange = !!(dateFrom && dateTo && dateFrom > dateTo);
+        document.getElementById('dateRange').classList.toggle('range-error', invalidRange);
 
         document.querySelectorAll('.card').forEach(card => {
             const isReturn = card.getAttribute('data-is-return') === 'true';
             const haystack = card.getAttribute('data-search') || '';
             const retDate = card.getAttribute('data-ret-only') || '';
             const kwOk = !keyword || haystack.includes(keyword);
-            const dateOk = (!dateFilter || !isReturn) ? true : retDate === dateFilter;
+
+            // 상시반납 카드만 기간 필터 적용 / 반납일이 비어있는 건은 누락 방지를 위해 항상 노출
+            let dateOk = true;
+            if (isReturn && retDate) {
+                if (dateFrom && retDate < dateFrom) dateOk = false;
+                if (dateTo && retDate > dateTo) dateOk = false;
+            }
+
             if (kwOk && dateOk) { card.classList.remove('search-hidden'); totalVisible++; }
             else { card.classList.add('search-hidden'); }
         });
@@ -342,7 +398,8 @@
         });
 
         const countEl = document.getElementById('searchCount');
-        if (keyword || dateFilter) { countEl.textContent = `${totalVisible}건 검색됨`; countEl.style.color = totalVisible > 0 ? '#4ade80' : '#f87171'; }
+        const dateNarrowed = (dateFrom && dateFrom !== DEFAULT_FROM_DATE) || !!dateTo;
+        if (keyword || dateNarrowed) { countEl.textContent = `${totalVisible}건 검색됨`; countEl.style.color = totalVisible > 0 ? '#4ade80' : '#f87171'; }
         else { countEl.textContent = ''; }
     }
 
@@ -377,6 +434,7 @@
         });
         btn.dataset.allSelected = 'true';
         btn.textContent = '선택 해제';
+        btn.classList.remove('btn-primary'); btn.classList.add('btn-toggled');
         updateBulkBar();
     }
 
@@ -388,7 +446,7 @@
         });
         selectedCards.clear();
         const btn = document.getElementById('selectAllBtn');
-        if (btn) { btn.dataset.allSelected = 'false'; btn.textContent = '전체선택'; }
+        if (btn) { btn.dataset.allSelected = 'false'; btn.textContent = '전체선택'; btn.classList.remove('btn-toggled'); btn.classList.add('btn-primary'); }
         updateBulkBar();
     }
 
